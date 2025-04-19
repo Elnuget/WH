@@ -22,7 +22,22 @@ function getDeepSeekResponse($message) {
             'json' => [
                 'model' => 'deepseek-chat',
                 'messages' => [
-                    ['role' => 'system', 'content' => 'Eres un asistente amigable. Proporciona respuestas cortas y concisas.'],
+                    ['role' => 'system', 'content' => 'Eres un asistente virtual de Eteria, empresa ubicada en Quito, Ecuador, especializada en soluciones de automatización con IA. Tus respuestas deben ser:
+
+1. Breves y directas
+2. En español
+3. Con 1-2 emojis máximo
+4. Enfocadas en soluciones de IA para WhatsApp y chat web
+
+Información importante:
+- WhatsApp: +593 98 316 3609
+- Email: cangulo009@outlook.es
+- Costos:
+  * Conversación iniciada: $0.079 USD
+  * Mensaje normal: $0.01 USD
+  * Instalación web + WhatsApp: $100 USD
+
+'],
                     ['role' => 'user', 'content' => $message]
                 ],
                 'max_tokens' => 100
@@ -38,6 +53,7 @@ function getDeepSeekResponse($message) {
 
 // Obtener el mensaje recibido de WhatsApp
 $receivedMessage = $_POST['Body'] ?? '';
+$fromNumber = $_POST['From'] ?? ''; // Obtener el número del remitente
 
 // Obtener respuesta de DeepSeek
 $aiResponse = getDeepSeekResponse($receivedMessage);
@@ -50,9 +66,9 @@ $token = $_ENV['TWILIO_AUTH_TOKEN'];
 $twilio = new Client($sid, $token);
 
 try {
-    // Enviar mensaje a WhatsApp
+    // Enviar mensaje a WhatsApp al número del remitente
     $message = $twilio->messages->create(
-        "whatsapp:" . $_ENV['TWILIO_WHATSAPP_TO'],
+        $fromNumber, // El número ya viene con el prefijo whatsapp: de Twilio
         [
             "from" => "whatsapp:" . $_ENV['TWILIO_WHATSAPP_FROM'],
             "body" => $aiResponse

@@ -40,8 +40,8 @@
                                         "whatsapp:" . $numero,
                                         [
                                             "from" => "whatsapp:" . $_ENV['TWILIO_WHATSAPP_FROM'],
-                                            "body" => "Hola! Gracias por contactarnos. ¿En qué podemos ayudarte?",
-                                            "contentSid" => "HX813706d8956484dbf6db35abe0ef7e9e"
+                                            "body" => "",
+                                            "contentSid" => "HX5daeed1f7315c02e48cd1b8a476c1092"
                                         ]
                                     );
                                     echo '<div class="alert alert-success">Mensaje enviado con éxito!</div>';
